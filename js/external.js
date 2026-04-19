@@ -1,34 +1,67 @@
 
 
+//================================//
+//------ MENU FILTER SYSTEM ------//
+//================================//
 
-//--MENU FILTERS--//
 
-//Select all the buttons with class "btn-filter"
+//APROACH: (Conditional Statement)
+
+// If (FILTER === CATEGORY OF FOOD) {display the card} else {hide it}.
+
+
+
+
+
+//Select all the buttons and cards from html using the classes.
+
 let buttons = document.querySelectorAll(".btn-filter");
-
-//Select all the cards with class "menu-card"
 let cards = document.querySelectorAll(".menu-card");
 
-if(buttons.length > 0 && cards.length > 0){
 
-	//Apply function in loop to all the buttons
+
+/*To avoid conflicts with some pages, because I'm using JavaScript
+and jQuery in the same file, I opted to use this conditional to check
+if it will be used on this page before running it.*/
+
+if(buttons.length > 0 && cards.length > 0){ //<-- to avoid conflicts with JQuery
+
+
+
+	//Loop the next through every button.
+
 	buttons.forEach(function(button){
 
-		//Declaring event: click
-		button.addEventListener("click", function(){
+		
 
-			//Getting the custom data attributes from the clicked button
+		button.addEventListener("click", function(){ //<-- event click
+
+
+
+			/*Every time the user clicks a button, this dinamic variable will
+			take the value from the clicked button*/ 
+
 			let filter = this.getAttribute("data-filter");
 
-			// remove active class
-		    buttons.forEach(btn => btn.classList.remove("btn-active"));
 
-	    	// activate current botón
+
+			//visual detail
+			// remove the active class from all buttons and add it only to the selected
+		    buttons.forEach(btn => btn.classList.remove("btn-active"));
 	    	this.classList.add("btn-active");
 
-			//Apply the same function to all the cards
+
+
+			//Loop this through every cards
+
 			cards.forEach(function(card){
+
+
+
+				// Gets its data-category and store it in the variable "category".
+
 				let category = card.getAttribute("data-category"); //<--data attributes
+
 
 				//conditional
 				if(filter === category){
@@ -40,10 +73,9 @@ if(buttons.length > 0 && cards.length > 0){
 		});
 	});
 
-	// let firstFilter = document.querySelector(".btn-filter");
-	// firstFilter.click();
 
 	// detect category from URL
+
 	let params = new URLSearchParams(window.location.search);
 	let categoryURL = params.get("category");
 
@@ -61,6 +93,8 @@ if(buttons.length > 0 && cards.length > 0){
 	document.querySelector(".btn-filter").click();
 
 	}
+
+
 	//--CARDS MODALS--//	
 
 	//Apply the same function to all the cards
@@ -100,6 +134,11 @@ if(typeof $ !== "undefined"){
 
 	$(document).ready(function(){
 
+		let now = new Date();
+		let todayDate = now.toISOString().split("T")[0];
+
+		$("#date").attr("min", todayDate);
+
 		$("#bookingForm").submit(function(e){
 
 			let name = $("#name").val();
@@ -116,18 +155,13 @@ if(typeof $ !== "undefined"){
 
 			let today = new Date();
 			today.setHours(0,0,0,0);
-			
-			let now = new Date();
-			let todayDate = now.toISOString().split("T")[0];
-			
-			$("#date").attr("min", todayDate);
 
 			let currentMinutes = now.getHours() * 60 + now.getMinutes();
 
 
 
 			if(name === ""){
-				alert("Please enter yout name");
+				alert("Please enter your name");
 				e.preventDefault();
 				return;
 			}
@@ -162,7 +196,7 @@ if(typeof $ !== "undefined"){
 
 
 			if(selectedDate < today) {
-				alert("Is not allowed make bookings in the past")
+				alert("Is not allowed to make bookings in the past")
 				e.preventDefault();
 				return;
 			}
